@@ -1,0 +1,221 @@
+-- MySQL dump 10.13  Distrib 8.0.18, for Win64 (x86_64)
+--
+-- Host: localhost    Database: career
+-- ------------------------------------------------------
+-- Server version	8.0.30
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!50503 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `career_program`
+--
+
+DROP TABLE IF EXISTS `career_program`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `career_program` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `career_id` int NOT NULL,
+  `program_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_career` (`career_id`),
+  KEY `idx_program` (`program_id`),
+  CONSTRAINT `career_program_ibfk_1` FOREIGN KEY (`career_id`) REFERENCES `careers` (`career_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `career_program_ibfk_2` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=67 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `career_program`
+--
+
+LOCK TABLES `career_program` WRITE;
+/*!40000 ALTER TABLE `career_program` DISABLE KEYS */;
+INSERT INTO `career_program` VALUES (1,100,8),(2,101,7),(3,102,8),(4,103,7),(5,104,6),(6,105,6),(7,106,6),(8,107,6),(9,108,10),(10,109,8),(11,200,2),(12,201,11),(13,202,11),(14,203,2),(15,204,11),(16,205,2),(17,206,2),(18,207,2),(19,208,2),(20,209,2),(21,210,2),(22,211,11),(23,212,2),(24,300,1),(25,301,1),(26,302,1),(27,303,3),(28,304,3),(29,305,3),(30,306,1),(31,307,8),(32,308,1),(33,309,3),(34,310,1),(35,311,1),(36,312,1),(37,313,1),(38,400,4),(39,401,4),(40,402,4),(41,403,4),(42,404,4),(43,405,4),(44,500,1),(45,501,1),(46,502,4),(47,503,9),(48,600,10),(49,601,10),(50,602,10),(51,603,3),(52,604,6),(53,605,11),(54,606,11),(55,607,10),(56,608,10),(57,700,9),(58,701,9),(59,702,9),(60,703,9),(61,704,9),(62,705,9),(63,706,9),(64,707,9),(65,708,9),(66,709,9);
+/*!40000 ALTER TABLE `career_program` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `careers`
+--
+
+DROP TABLE IF EXISTS `careers`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `careers` (
+  `career_id` int NOT NULL,
+  `career_name` varchar(255) NOT NULL,
+  `description` text NOT NULL,
+  PRIMARY KEY (`career_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `careers`
+--
+
+LOCK TABLES `careers` WRITE;
+/*!40000 ALTER TABLE `careers` DISABLE KEYS */;
+INSERT INTO `careers` VALUES (100,'Economist','Research economic trends, analyze data, and provide forecasts.'),(101,'Financial Analyst','Evaluate investment opportunities, manage portfolios, and offer financial advice.'),(102,'Investment Banker','Advise companies on mergers, acquisitions, raising capital, and trading securities.'),(103,'Risk Manager','Assess and mitigate financial risks for companies or institutions.'),(104,'Management Consultant','Provide strategic advice and problem-solving solutions to businesses.'),(105,'Business Analyst','Analyze business processes, identify areas for improvement, and recommend solutions.'),(106,'Market Research Analyst','Gather and analyze data on consumer behavior, market trends, and competitor activities.'),(107,'Product Manager','Develop and launch new products or services, oversee their lifecycle, and ensure their success in the market.'),(108,'Urban Planner','Plan and design the development of cities and communities.'),(109,'International Development Specialist','Work on projects to improve economic and social conditions in developing countries.'),(200,'Software Engineer','Designs, develops, tests, and maintains software applications.'),(201,'Systems Analyst','Analyzes business needs and designs technical solutions to meet those needs.'),(202,'Network Administrator','Manages and maintains computer networks and their infrastructure.'),(203,'Database Administrator','Manages and maintains databases, ensuring their security and performance.'),(204,'Cybersecurity Analyst','Identifies and mitigates cybersecurity threats to computer systems and networks.'),(205,'Software Developer','Focuses primarily on the coding and development aspects of software applications.'),(206,'Full-Stack Developer','Possesses skills in both front-end and back-end development of web applications.'),(207,'Mobile App Developer','Develops and maintains applications for mobile devices (iOS and/or Android).'),(208,'Data Scientist','Applies statistical and machine learning techniques to extract insights from large datasets.'),(209,'Data Analyst','Collects, cleans, and analyzes data to identify trends and patterns.'),(210,'Machine Learning Engineer','Builds and deploys machine learning models into production systems.'),(211,'IT Consultant','Provides expert advice and guidance on IT-related issues to businesses.'),(212,'UX/UI Designer','Focuses on creating user-friendly and visually appealing interfaces for software and applications.'),(300,'Research Scientist','Conducts scientific research to advance knowledge and solve problems.'),(301,'Laboratory Technician','Assists scientists in conducting experiments and maintaining laboratory equipment.'),(302,'Science Communicator','Translates scientific information into understandable formats for the public.'),(303,'Pharmacist','Dispenses medications, provides drug information, and counsels patients on medication use.'),(304,'Medical Scientist','Conducts research to understand and treat diseases.'),(305,'Biomedical Engineer','Applies engineering principles to solve problems in medicine and healthcare.'),(306,'Environmental Scientist','Studies the environment and works to protect it from pollution and degradation.'),(307,'Policy Analyst','Researches and analyzes public policies, often with a focus on their social and economic impacts.'),(308,'Science Journalist','Reports on scientific discoveries and issues to the public.'),(309,'Patent Attorney','Provides legal advice on patents and other intellectual property matters.'),(310,'Science Consultant','Provides expert advice and guidance to businesses and organizations on scientific and technical matters.'),(311,'Forensic Scientist','Applies scientific methods to investigate and solve crimes.'),(312,'Research Scientist','Conducts scientific research to advance knowledge and solve problems.'),(313,'Laboratory Technician','Assists scientists in conducting experiments and maintaining laboratory equipment.'),(400,'Religious Counselor','Provides guidance and support to individuals and communities on Islamic principles and practices.'),(401,'Imam','Leads religious services, delivers sermons, and provides spiritual guidance to the Muslim community.'),(402,'Islamic History Researcher','Conducts research on the history of Islam, including its social, political, and cultural development.'),(403,'Islamic Theology Researcher','Investigates and analyzes Islamic theological doctrines, beliefs, and schools of thought.'),(404,'Islamic Culture Researcher','Studies the various aspects of Islamic culture, including art, literature, music, and philosophy.'),(405,'Islamic Publisher','Oversees the production and dissemination of Islamic literature, including books, journals, and other publications.'),(500,'University Professor','An academician who conducts research, teaches at the university level, and guides graduate students.'),(501,'School Teacher','An educator responsible for instructing students in a specific subject or grade level within a primary or secondary school.'),(502,'Religious Teacher','An instructor who teaches Islamic studies, including Quran, Hadith, Fiqh, and Islamic history, to Muslim students.'),(503,'Physical Education Teacher','An educator who teaches physical education classes, focusing on physical fitness, sports skills, and healthy lifestyle habits.'),(600,'Civil Engineer','Designs, plans, and oversees the construction of infrastructure projects like roads, bridges, and buildings.'),(601,'Mechanical Engineer','Designs, builds, and tests mechanical systems such as engines, machines, and vehicles.'),(602,'Electrical Engineer','Designs, develops, and tests electrical systems, equipment, and devices.'),(603,'Biomedical Engineer','Applies engineering principles to the healthcare field, developing medical devices, prosthetics, and diagnostic equipment.'),(604,'Project Manager','Plans, organizes, and directs the execution of projects to ensure they are completed on time, within budget, and to the desired quality.'),(605,'Technical Writer','Creates clear and concise documentation, such as user manuals, technical specifications, and training materials.'),(606,'Technical Support Specialist','Provides assistance to customers with technical issues related to software, hardware, or other technological products.'),(607,'Electrical Engineer','Designs, develops, tests, and maintains electrical equipment and systems, such as power generation and distribution, motors, and control systems.'),(608,'Electronic Engineer','Designs, develops, tests, and maintains electronic devices and systems, such as computers, communication systems, and consumer electronics.'),(700,'Sports Coach','Guides and instructs athletes in a specific sport, focusing on skill development, strategy, and team dynamics.'),(701,'Strength and Conditioning Coach','Designs and oversees training programs to improve athletes\' physical performance, including strength, power, speed, agility, and endurance.'),(702,'Sports Performance Analyst','Collects, analyzes, and interprets data to enhance athlete performance, using video analysis, tracking systems, and statistical software.'),(703,'Exercise Physiologist','Applies scientific principles to understand the effects of exercise on the human body, often working with individuals with health conditions or injuries.'),(704,'Personal Trainer','Provides individualized fitness guidance and support to clients, helping them achieve their fitness goals through exercise programs and lifestyle modifications.'),(705,'Fitness Center Manager','Oversees the daily operations of a fitness facility, including staff management, member relations, equipment maintenance, and facility cleanliness.'),(706,'Sports Psychologist','Provides mental and emotional support to athletes, helping them overcome challenges, improve focus, build confidence, and enhance performance.'),(707,'Sports Journalist','Reports on sporting events, athletes, teams, and leagues, covering news, interviews, and analysis for various media outlets.'),(708,'Sports Equipment Designer','Creates and develops innovative sports equipment, considering factors like aerodynamics, biomechanics, and safety to enhance athlete performance.'),(709,'Sports Marketing Specialist','Develops and executes marketing strategies to promote sports teams, events, and brands, including advertising, sponsorship, and public relations.');
+/*!40000 ALTER TABLE `careers` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `program_subject`
+--
+
+DROP TABLE IF EXISTS `program_subject`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `program_subject` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `program_id` int NOT NULL,
+  `subject_id` int NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `idx_program` (`program_id`),
+  KEY `idx_subject` (`subject_id`),
+  CONSTRAINT `program_subject_ibfk_1` FOREIGN KEY (`program_id`) REFERENCES `programs` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `program_subject_ibfk_2` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `program_subject`
+--
+
+LOCK TABLES `program_subject` WRITE;
+/*!40000 ALTER TABLE `program_subject` DISABLE KEYS */;
+INSERT INTO `program_subject` VALUES (1,1,15),(2,1,60),(3,1,61),(4,2,73),(5,2,12),(6,2,63),(7,3,62),(8,3,61),(9,3,15),(10,4,20),(11,4,50),(12,4,51),(13,5,24),(14,5,20),(15,5,52),(16,6,32),(17,6,31),(18,6,12),(19,7,30),(20,7,12),(21,7,31),(22,8,31),(23,8,12),(24,8,30),(25,9,74),(26,9,15),(27,9,62),(28,10,78),(29,10,60),(30,10,63),(31,11,73),(32,11,63),(33,11,71);
+/*!40000 ALTER TABLE `program_subject` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `programs`
+--
+
+DROP TABLE IF EXISTS `programs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `programs` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `program_name` varchar(255) NOT NULL,
+  `program_description` text,
+  `entrance_requirement` text,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `programs`
+--
+
+LOCK TABLES `programs` WRITE;
+/*!40000 ALTER TABLE `programs` DISABLE KEYS */;
+INSERT INTO `programs` VALUES (1,'Diploma in Science','Provides a foundation in various scientific disciplines, including biology, chemistry, physics, and mathematics.','Minimum of one science subject (Sains, Fizik, or Kimia)'),(2,'Diploma in Computer Science','Focuses on computer programming, software development, and information technology.','Mathematics and one additional subject (Sains Komputer or Matematik Tambahan)'),(3,'Diploma in Biotechnology','Explores the application of biological processes for industrial and medical purposes.','Biology and one additional science subject (Kimia or Sains)'),(4,'Diploma in Islamic Studies','Covers Islamic theology, jurisprudence, and history.','Pendidikan Islam or any related Islamic studies subject'),(5,'Diploma in Arabic Language','Focuses on the Arabic language, literature, and culture.','Bahasa Arab or any Islamic studies subject'),(6,'Diploma in Business Studies','Provides a broad understanding of business principles, including accounting, finance, and marketing.','Mathematics and one business-related subject (Perniagaan or Ekonomi)'),(7,'Diploma in Accounting','Focuses on financial accounting, management accounting, and auditing.','Prinsip Perakaunan and Mathematics'),(8,'Diploma in Economics','Explores economic theories, principles, and applications.','Ekonomi and Mathematics'),(9,'Diploma in Sports Studies','Covers sports science, coaching, sports management, and physical education.','Sains Sukan or any science subject (Sains or Biologi)'),(10,'Diploma in Engineering Technology','Offers practical training in various engineering fields, such as mechanical, electrical, and civil engineering.','Fizik or Matematik Tambahan'),(11,'Diploma in Information and Communication Technology','Focuses on computer networking, cybersecurity, and telecommunications.','Sains Komputer or Matematik Tambahan');
+/*!40000 ALTER TABLE `programs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `subjects`
+--
+
+DROP TABLE IF EXISTS `subjects`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `subjects` (
+  `subject_id` int NOT NULL,
+  `subject_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`subject_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `subjects`
+--
+
+LOCK TABLES `subjects` WRITE;
+/*!40000 ALTER TABLE `subjects` DISABLE KEYS */;
+INSERT INTO `subjects` VALUES (10,'Bahasa Melayu'),(11,'Bahasa Inggeris'),(12,'Matematik'),(13,'Sejarah'),(15,'Sains'),(20,'Pendidikan Islam'),(21,'Pendidikan Moral'),(24,'Bahasa Arab'),(30,'Prinsip Perakaunan'),(31,'Ekonomi'),(32,'Perniagaan'),(50,'Pendidikan Al-Quran dan Al-Sunnah'),(51,'Pendidikan Syariah Islamiah'),(52,'Tasawwur Islam'),(60,'Fizik'),(61,'Kimia'),(62,'Biologi'),(63,'Matematik Tambahan'),(70,'Sains Tambahan'),(71,'Grafik Komunikasi Teknikal'),(72,'Reka Cipta'),(73,'Sains Komputer'),(74,'Sains Sukan'),(78,'Lukisan Kejuruteraan');
+/*!40000 ALTER TABLE `subjects` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `user_subject`
+--
+
+DROP TABLE IF EXISTS `user_subject`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `user_subject` (
+  `user_subject_id` int NOT NULL AUTO_INCREMENT,
+  `user_id` int DEFAULT NULL,
+  `subject_id` int DEFAULT NULL,
+  `subject_grade` varchar(5) DEFAULT NULL,
+  PRIMARY KEY (`user_subject_id`),
+  KEY `subject_id` (`subject_id`),
+  CONSTRAINT `user_subject_ibfk_1` FOREIGN KEY (`subject_id`) REFERENCES `subjects` (`subject_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=31 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `user_subject`
+--
+
+LOCK TABLES `user_subject` WRITE;
+/*!40000 ALTER TABLE `user_subject` DISABLE KEYS */;
+INSERT INTO `user_subject` VALUES (24,1,10,'A'),(28,1,50,'A'),(29,1,11,'A'),(30,1,12,'A');
+/*!40000 ALTER TABLE `user_subject` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `users`
+--
+
+DROP TABLE IF EXISTS `users`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `users` (
+  `user_id` int NOT NULL AUTO_INCREMENT,
+  `first_name` varchar(50) NOT NULL,
+  `last_name` varchar(50) NOT NULL,
+  `email` varchar(100) NOT NULL,
+  `password` varchar(255) NOT NULL,
+  `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `users`
+--
+
+LOCK TABLES `users` WRITE;
+/*!40000 ALTER TABLE `users` DISABLE KEYS */;
+INSERT INTO `users` VALUES (1,'Luqman','Mansor','luqmanmansor12@gmail.com','$2a$12$/mEesbmxROgG.IXNb/uDHuMbeFUoTvM7xxPyuRpNJlIftk9ZchKM6','2025-02-21 09:32:16'),(2,'Luqm','an','luqmanmansor13@gmail.com','$2a$12$1rq/9uDvXJzYjU3T5ju51OMm4P8WnHQ1MlaM73E93Hz8r0lNIEcd.','2025-02-21 09:43:57');
+/*!40000 ALTER TABLE `users` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping routines for database 'career'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2025-02-21 22:53:11
