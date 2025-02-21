@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import my.career.model.Application;
 import my.career.model.Program;
 import my.career.model.User;
+import my.career.model.Career;
 import my.career.model.Subject;
 import my.career.model.UserSubject;
 import my.career.util.DatabaseConnection;
@@ -76,7 +77,7 @@ public class ApplicationServlet extends HttpServlet {
         try (Connection conn = DatabaseConnection.getConnection()) {
             // SQL to fetch subjects not selected by the current user
             String sql = "SELECT subject_id, subject_name FROM subjects "
-                    + "WHERE subject_id NOT IN (SELECT subject_id FROM user_subjects WHERE user_id = ?) "
+                    + "WHERE subject_id NOT IN (SELECT subject_id FROM user_subject WHERE user_id = ?) "
                     + "ORDER BY subject_name ASC";
 
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -96,7 +97,7 @@ public class ApplicationServlet extends HttpServlet {
         try (Connection conn = DatabaseConnection.getConnection()) {
             // Fetch user subjects
             String userSubjectsSql = "SELECT us.user_subject_id, s.subject_name, us.subject_grade, s.subject_id "
-                    + "FROM user_subjects us "
+                    + "FROM user_subject us "
                     + "JOIN subjects s ON us.subject_id = s.subject_id "
                     + "WHERE us.user_id = ?";
             PreparedStatement userSubjectsStmt = conn.prepareStatement(userSubjectsSql);
@@ -117,11 +118,13 @@ public class ApplicationServlet extends HttpServlet {
             // Fetch suggested programs based on the user subject grades and filter by subject_id
             for (UserSubject userSubject : userSubjects) {
                 // Suggest programs based on subject_grade and subject_id
-                String suggestedProgramsSql = "SELECT DISTINCT p.id, p.program_id, p.program_name, p.program_description, p.entrance_requirement "
+
+                String suggestedProgramsSql = "SELECT DISTINCT p.id, p.program_name, p.program_description, p.entrance_requirement "
                         + "FROM programs p "
-                        + "JOIN user_subjects us ON us.subject_id = p.subject_id "
+                        + "JOIN program_subject ps ON ps.program_id = p.id " // Join with ProgramSubject table on program_id
+                        + "JOIN user_subject us ON us.subject_id = ps.subject_id " // Join with user_subjects on subject_id
                         + "WHERE us.user_id = ? "
-                        + "AND us.subject_grade = 'A'";
+                        + "AND us.subject_grade = 'A'";  // Filter by subject_grade 'A'
 
                 // Prepare and execute the query
                 PreparedStatement suggestedProgramsStmt = conn.prepareStatement(suggestedProgramsSql);
@@ -129,14 +132,13 @@ public class ApplicationServlet extends HttpServlet {
                 ResultSet suggestedProgramsRs = suggestedProgramsStmt.executeQuery();
 
                 while (suggestedProgramsRs.next()) {
-                    int programId = suggestedProgramsRs.getInt("program_id");
+                    int programId = suggestedProgramsRs.getInt("id");
 
                     // Check if the program_id has already been added
                     if (!seenProgramIds.contains(programId)) {
                         // Create the Program object
                         Program program = new Program(
                                 suggestedProgramsRs.getInt("id"),
-                                programId,
                                 suggestedProgramsRs.getString("program_name"),
                                 suggestedProgramsRs.getString("program_description"),
                                 suggestedProgramsRs.getString("entrance_requirement")
@@ -147,6 +149,45 @@ public class ApplicationServlet extends HttpServlet {
                         seenProgramIds.add(programId);
                     }
                 }
+
+                // Step 2: Fetch careers related to the suggested programs
+                List<Career> suggestedCareers = new ArrayList<>();
+                String suggestedCareersSql = "SELECT c.career_id, c.career_name, c.description "
+                        + "FROM careers c "
+                        + "JOIN career_program cp ON cp.career_id = c.career_id "
+                        + "JOIN programs p ON p.id = cp.program_id "
+                        + "WHERE p.id IN (";  // Filter careers based on the programs fetched
+
+// Add program IDs dynamically
+                for (int i = 0; i < suggestedPrograms.size(); i++) {
+                    if (i > 0) {
+                        suggestedCareersSql += ", ";
+                    }
+                    suggestedCareersSql += "?";
+                }
+                suggestedCareersSql += ")";
+
+// Prepare and execute the query to get careers
+                PreparedStatement suggestedCareersStmt = conn.prepareStatement(suggestedCareersSql);
+
+// Set the program IDs for filtering
+                for (int i = 0; i < suggestedPrograms.size(); i++) {
+                    suggestedCareersStmt.setInt(i + 1, suggestedPrograms.get(i).getId());
+                }
+
+                ResultSet suggestedCareersRs = suggestedCareersStmt.executeQuery();
+
+                while (suggestedCareersRs.next()) {
+                    Career career = new Career(
+                            suggestedCareersRs.getInt("career_id"),
+                            suggestedCareersRs.getString("career_name"),
+                            suggestedCareersRs.getString("description")
+                    );
+                    suggestedCareers.add(career);
+                }
+
+                request.setAttribute("suggestedCareers", suggestedCareers);
+
             }
         } catch (Exception e) {
             e.printStackTrace();

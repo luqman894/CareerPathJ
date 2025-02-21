@@ -19,7 +19,7 @@ public class DeleteSubjectServlet extends HttpServlet {
 
         // Perform the deletion in the database
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "DELETE FROM user_subjects WHERE user_subject_id = ?";
+            String sql = "DELETE FROM user_subject WHERE user_subject_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, userSubjectId);
 

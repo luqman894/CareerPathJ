@@ -2,15 +2,13 @@ package my.career.model;
 
 public class Program {
     private int id;                // New id field
-    private int programId;         // Existing programId field
     private String programName;
     private String programDescription;
     private String entranceRequirement;
 
     // Constructor to initialize all fields
-    public Program(int id, int programId, String programName, String programDescription, String entranceRequirement) {
+    public Program(int id, String programName, String programDescription, String entranceRequirement) {
         this.id = id;
-        this.programId = programId;
         this.programName = programName;
         this.programDescription = programDescription;
         this.entranceRequirement = entranceRequirement;
@@ -23,14 +21,6 @@ public class Program {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public int getProgramId() {
-        return programId;
-    }
-
-    public void setProgramId(int programId) {
-        this.programId = programId;
     }
 
     public String getProgramName() {
@@ -62,7 +52,6 @@ public class Program {
     public String toString() {
         return "Program{" +
                 "id=" + id +
-                ", programId=" + programId +
                 ", programName='" + programName + '\'' +
                 ", programDescription='" + programDescription + '\'' +
                 ", entranceRequirement='" + entranceRequirement + '\'' +

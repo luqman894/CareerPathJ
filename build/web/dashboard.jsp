@@ -3,6 +3,7 @@
 <%@ page import="java.util.List" %>
 <%@ page import="my.career.model.Application" %>
 <%@ page import="my.career.model.Subject" %>
+<%@ page import="my.career.model.Career" %>
 <%@ page import="my.career.model.UserSubject" %>
 <%@ page import="my.career.model.Program" %>
 <!DOCTYPE html>
@@ -225,10 +226,10 @@
             <p>Explore your career options and find the path that suits you best!</p>
             <div class="greeting" id="greeting"></div>
             <h2>
-                <% 
+                <%
                     User user = (User) session.getAttribute("user");
                     if (user != null) {
-                        out.println(user.getFirstName() + " " + user.getLastName() );
+                        out.println(user.getFirstName() + " " + user.getLastName());
                     }
                 %>
             </h2>
@@ -236,8 +237,8 @@
         </header>
 
         <div class="content">
-            <% if (request.getAttribute("errorMessage") != null) { %>
-            <p style="color: red;"><%= request.getAttribute("errorMessage") %></p>
+            <% if (request.getAttribute("errorMessage") != null) {%>
+            <p style="color: red;"><%= request.getAttribute("errorMessage")%></p>
             <% } %>
 
             <div class="section">
@@ -258,29 +259,29 @@
                         for (UserSubject userSubject : userSubjects) {
                     %>
                     <tr>
-                        <td><%= userSubject.getSubjectName() %></td>
+                        <td><%= userSubject.getSubjectName()%></td>
                         <td>
                             <!-- Editable grade field -->
-                            <select type="text" id="grade_<%= userSubject.getId() %>">
-                                <option value="A" <%= "A".equals(userSubject.getGrade()) ? "selected" : "" %>>A</option>
-                                <option value="B" <%= "B".equals(userSubject.getGrade()) ? "selected" : "" %>>B</option>
-                                <option value="C" <%= "C".equals(userSubject.getGrade()) ? "selected" : "" %>>C</option>
-                                <option value="D" <%= "D".equals(userSubject.getGrade()) ? "selected" : "" %>>D</option>
-                                <option value="E" <%= "E".equals(userSubject.getGrade()) ? "selected" : "" %>>E</option>
-                                <option value="G" <%= "G".equals(userSubject.getGrade()) ? "selected" : "" %>>G</option>
+                            <select type="text" id="grade_<%= userSubject.getId()%>">
+                                <option value="A" <%= "A".equals(userSubject.getGrade()) ? "selected" : ""%>>A</option>
+                                <option value="B" <%= "B".equals(userSubject.getGrade()) ? "selected" : ""%>>B</option>
+                                <option value="C" <%= "C".equals(userSubject.getGrade()) ? "selected" : ""%>>C</option>
+                                <option value="D" <%= "D".equals(userSubject.getGrade()) ? "selected" : ""%>>D</option>
+                                <option value="E" <%= "E".equals(userSubject.getGrade()) ? "selected" : ""%>>E</option>
+                                <option value="G" <%= "G".equals(userSubject.getGrade()) ? "selected" : ""%>>G</option>
                             </select>
                         </td>
                         <td>
                             <!-- Form to save the updated grade -->
-                            <form id="gradeForm_<%= userSubject.getId() %>" action="updateGrade" method="POST">
-                                <input type="hidden" name="userSubjectId" value="<%= userSubject.getId() %>">
-                                <input type="hidden" name="newGrade" id="newGrade_<%= userSubject.getId() %>" value="<%= userSubject.getGrade() %>">
-                                <button type="button" onclick="saveGrade(<%= userSubject.getId() %>)">Save</button>
+                            <form id="gradeForm_<%= userSubject.getId()%>" action="updateGrade" method="POST">
+                                <input type="hidden" name="userSubjectId" value="<%= userSubject.getId()%>">
+                                <input type="hidden" name="newGrade" id="newGrade_<%= userSubject.getId()%>" value="<%= userSubject.getGrade()%>">
+                                <button type="button" onclick="saveGrade(<%= userSubject.getId()%>)">Save</button>
                             </form>
 
-                            <form action="deleteSubject" method="POST"        onsubmit="return confirmDelete(<%= userSubject.getId() %>, '<%= userSubject.getSubjectName() %>');">
+                            <form action="deleteSubject" method="POST"        onsubmit="return confirmDelete(<%= userSubject.getId()%>, '<%= userSubject.getSubjectName()%>');">
 
-                                <input type="hidden" name="userSubjectId" value="<%= userSubject.getId() %>">
+                                <input type="hidden" name="userSubjectId" value="<%= userSubject.getId()%>">
                                 <button type="submit">Delete</button>
                             </form>
                         </td>
@@ -297,7 +298,7 @@
                             List<Subject> subjects = (List<Subject>) request.getAttribute("subjects");
                             for (Subject subject : subjects) {
                         %>
-                        <option value="<%= subject.getSubjectId() %>"><%= subject.getSubjectName() %></option>
+                        <option value="<%= subject.getSubjectId()%>"><%= subject.getSubjectName()%></option>
                         <% } %>
                     </select><br>
 
@@ -316,134 +317,61 @@
             </div>
 
             <div class="section">
-                <h2>Suggested Programs</h2>
+                <h2>Courses Programs</h2>
+                <div class="career-grid">
+                <%
+                    // Retrieve the suggestedPrograms list from request attribute
+                    List<Program> suggestedPrograms = (List<Program>) request.getAttribute("suggestedPrograms");
 
-                <!-- Table to display the suggested programs -->
-                <table border="1" cellpadding="5" cellspacing="0">
-                    <thead>
-                        <tr>
-                            <th>Program Name</th>
-                            <th>Description</th>
-                            <th>Entrance Requirement</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <%
-                            // Retrieve the suggestedPrograms list from request attribute
-                            List<Program> suggestedPrograms = (List<Program>) request.getAttribute("suggestedPrograms");
-                
-                            // Iterate over the list and display each program
-                            if (suggestedPrograms != null) {
-                                for (Program program : suggestedPrograms) {
-                        %>
-                        <tr>
-                            <td><%= program.getProgramName() %></td>
-                            <td><%= program.getProgramDescription() %></td>
-                            <td><%= program.getEntranceRequirement() %></td>
-                        </tr>
-                        <%
-                                }
-                            }
-                        %>
-                    </tbody>
-                </table>
+                    // Iterate over the list and display each program
+                    if (suggestedPrograms != null) {
+                        for (Program program : suggestedPrograms) {
+                %>
+                <div class="career-card">
+                    <h3><%= program.getProgramName()%></h3>
+                    <p><%= program.getProgramDescription()%></p>
+                    <p><%= program.getEntranceRequirement()%></p>
+                    <a href="#">Apply Now</a>
+                </div> 
 
-                <h2>Career Path Recommendations</h2>
+                <%
+                        }
+                    }
+                %>
+                </div>
+                </br>
+                <h2>Future Careers</h2>
+
+                <%
+                    // Get the suggested careers from the request attribute
+                    List<Career> suggestedCareers = (List<Career>) request.getAttribute("suggestedCareers");
+                    if (suggestedCareers != null && !suggestedCareers.isEmpty()) {
+                %>
                 <div class="career-grid">
                     <%
-                        List<Application> applications = (List<Application>) request.getAttribute("applications");
-                        if (applications != null && !applications.isEmpty()) {
-                            for (Application app : applications) {
-                    %>
-
-
-                    <%
-                        Program p1 = app.getProgram1();
-                        if (p1 != null) {
+                        // Iterate through the list of suggested careers
+                        for (Career career : suggestedCareers) {
                     %>
 
                     <div class="career-card">
                         <img src="img/bio.jpg" alt="Career Image"> 
-                        <h3><%= p1.getProgramName() %></h3>
-                        <p><%= p1.getProgramDescription() %></p>
-                        <a href="#">Learn More</a>
-                    </div>
+                        <h3><%= career.getCareerName()%></h3>
+                        <p><%= career.getDescription()%></p>
+
+                    </div>                  
 
                     <%
-                        } else { out.print("N/A"); }
+                        }
                     %>
-
-                    <%
-             Program p2 = app.getProgram2();
-             if (p1 != null) {
-                    %>
-
-                    <div class="career-card">
-                        <img src="img/science.jpg" alt="Career Image">
-                        <h3><%= p2.getProgramName() %></h3>
-                        <p><%= p2.getProgramDescription() %></p>
-                        <a href="#">Learn More</a>
-                    </div>
-
-                    <%
-                        } else { out.print("N/A"); }
-                    %>
-
-
-                    <%
-             Program p3 = app.getProgram3();
-             if (p1 != null) {
-                    %>
-
-                    <div class="career-card">
-                        <img src="img/computer.jpg" alt="Career Image">
-                        <h3><%= p3.getProgramName() %></h3>
-                        <p><%= p3.getProgramDescription() %></p>
-                        <a href="#">Learn More</a>
-                    </div>
-
-                    <%
-                        } else { out.print("N/A"); }
-                    %>
-
-                    <%
-                            }
-                        } else {
-                    %>
-                    <div>
-                        No applications found.                
-                    </div> 
-                    <% } %>
                 </div>
+                <%
+                } else {
+                %>
+                <p>No careers found for the selected criteria.</p>
+                <%
+                    }
+                %>
 
-
-                <div class="section">
-                    <h2>Career Path Recommendations</h2>
-                    <div class="career-grid">
-                        <!-- Career 1 -->
-                        <div class="career-card">
-                            <img src="img/computer.jpg" alt="Career Image">
-                            <h3>Software Engineer</h3>
-                            <p>Develop and maintain software systems to solve problems and improve processes.</p>
-                            <a href="#">Learn More</a>
-                        </div>
-                        <!-- Career 2 -->
-                        <div class="career-card">
-                            <img src="img/computer.jpg" alt="Career Image">
-                            <h3>Data Scientist</h3>
-                            <p>Analyze complex data to help businesses make informed decisions.</p>
-                            <a href="#">Learn More</a>
-                        </div>
-                        <!-- Career 3 -->
-                        <div class="career-card">
-                            <img src="img/computer.jpg" alt="Career Image">
-                            <h3>Graphic Designer</h3>
-                            <p>Use creativity and technology to design visual concepts for branding and marketing.</p>
-                            <a href="#">Learn More</a>
-                        </div>
-                        <!-- More careers can be added here -->
-                    </div>
-                </div>
 
                 <div class="section">
                     <h2>Skill Development Progress</h2>

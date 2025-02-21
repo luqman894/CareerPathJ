@@ -23,7 +23,7 @@ public class AddSubjectServlet extends HttpServlet {
         int userId = ((User) request.getSession().getAttribute("user")).getId();
 
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "INSERT INTO user_subjects (user_id, subject_id, subject_grade) VALUES (?, ?, ?)";
+            String sql = "INSERT INTO user_subject (user_id, subject_id, subject_grade) VALUES (?, ?, ?)";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setInt(1, userId);
                 stmt.setInt(2, subjectId);

@@ -19,7 +19,7 @@ public class UpdateGradeServlet extends HttpServlet {
         String newGrade = request.getParameter("newGrade");
 
         try (Connection conn = DatabaseConnection.getConnection()) {
-            String sql = "UPDATE user_subjects SET subject_grade = ? WHERE user_subject_id = ?";
+            String sql = "UPDATE user_subject SET subject_grade = ? WHERE user_subject_id = ?";
             try (PreparedStatement stmt = conn.prepareStatement(sql)) {
                 stmt.setString(1, newGrade);
                 stmt.setInt(2, userSubjectId);
